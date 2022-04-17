@@ -3,10 +3,10 @@ import os
 
 def connection():
     conn = connector.connect(
-            host='localhost',
-            password='@Natiprado27',
-            user='Natanim',
-            database='learningpage'
+            host=os.getenv('host'),
+            password=os.getenv('pwd'),
+            user=os.get('user'),
+            database=os.get('database')
         )
     cur = conn.cursor(buffered=True)
     try:
