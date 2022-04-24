@@ -120,11 +120,11 @@ class PrivateDatabase:
     def set_verifie(self, user_id):
         self.cur.execute("UPDATE students SET is_verified = 'True' WHERE user_id = %s", (user_id,))
         self.conn.commit()
-        self.cur.execute("SELECT user_id FROM invites")
+        self.cur.execute("SELECT invited_id FROM invites")
         i = self.cur.fetchall()
         if (user_id,) in [j for j in i]:
             
-            self.cur.execute("SELECT bbalance, inviter_id FROM bot_setting JOIN invites WHERE user_id = %s", (user_id,))
+            self.cur.execute("SELECT bbalance, inviter_id FROM bot_setting JOIN invites WHERE invited_id = %s", (user_id,))
             u = self.cur.fetchone()
             self.cur.execute("UPDATE students SET balance = balance + %s WHERE user_id = %s", u)
             self.conn.commit()
