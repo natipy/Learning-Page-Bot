@@ -6,12 +6,15 @@ def connection():
             host=os.getenv('host'),
             password=os.getenv('pwd'),
             user=os.get('user'),
-            database=os.get('database')
+            database=os.get('database'),
+            port=6201
         )
     cur = conn.cursor(buffered=True)
     try:
         conn.connect()
         conn.autocommit = True
+    except:
+        conn.reconnect()
     finally:
         return conn, cur
 
