@@ -26,6 +26,9 @@ try:
     import de_json as json
 except:
     import json
+finally:
+    assert json
+    
 apihelper.ENABLE_MIDDLEWARE = True
 
 db = PrivateDatabase()
