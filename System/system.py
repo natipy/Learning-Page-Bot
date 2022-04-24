@@ -21,9 +21,7 @@ class CallbackAdmin(SimpleCustomFilter):
 
 def is_verified(id):
     CONN.execute("select is_verified from students where user_id = %s", (id, ))
-
     for verified in CONN.fetchone():
-
         if verified == "True":
             return True
     return False
