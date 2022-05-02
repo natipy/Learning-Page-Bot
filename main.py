@@ -26,15 +26,12 @@ try:
     import de_json as json
 except:
     import json
-finally:
-    assert json
-    
 apihelper.ENABLE_MIDDLEWARE = True
 
 db = PrivateDatabase()
 conn, cur = connection()
-ADMIN_ID = os.getenv('admin_id')
-CHANNEL_ID = os.getenv('channel_id')
+ADMIN_ID = 5213764043
+CHANNEL_ID = -1001793167733
 TOKEN = os.getenv("bot_token")
 
 bot = TeleBot(TOKEN)
@@ -66,9 +63,9 @@ class OnMessage(StatesGroup):
     reply = State()
     to_user = State()
 
+    
 @bot.message_handler(commands=['start'], chat_types=['private'], is_deeplink=False, joined=True, not_banned=True)
 def start_message(msg):
-    cur = conn.cursor()
     user_id = msg.chat.id
     date = time()
     inv_link = generator.invite_link(user_id)
@@ -335,14 +332,14 @@ def amharic_button(msg: types.Message):
 
     elif msg.text == "👨‍👩‍👦‍👦 ጋብዝ":
         cur.execute('''
-SELECT invitation_link, invites, balance, bbalance withdraw FROM students JOIN bot_setting WHERE user_id = %s''',
+SELECT invitation_link, invites, balance, bbalance, withdraw FROM students JOIN bot_setting WHERE user_id = %s''',
                            (user_id,))
         link, invites, balance, withdr, bbl = cur.fetchone()
         bot.send_message(user_id, BalanceText['am'].format(balance, invites, withdr, bbl, DEEPLINK+link),
                          parse_mode="HTML", reply_markup=withdraw('am', DEEPLINK+link))
 
     elif msg.text == "🙋‍♂ የኔ ጥያቄዎች":
-        target = threading.Thread(target=browse, args=(user_id, 'am'))
+        target = threading.Thread(target=browse, args=(msg, 'am'))
         target.start()
         target.join()
 
@@ -350,12 +347,12 @@ SELECT invitation_link, invites, balance, bbalance withdraw FROM students JOIN b
         bot.send_message(user_id, SettingText.format(first_name, gender, phone, username, bio, tp(time(), joined_date)),
                          parse_mode="HTML", reply_markup=user_setting('am'))
 
-    elif msg.text == "🗣 ጥያቄ ጥይቅ":
+    elif msg.text == "🗣 ጥያቄ ጠይቅ":
         bot.send_message(user_id, "<code>ጥያቄዎትን በጽሁፍ ፣ በድምጽ ወይም በምስል (Video,Photo) ይላኩ።</code>",
                          reply_markup=cancel(lang), parse_mode="html")
         bot.set_state(user_id, AskQuestion.question)
     elif msg.text == "💬 አስታየት":
-        bot.send_message(user_id, "<code>ያሎትን ሃሳብ ወይም ወይም አስታየት በጽሁ(Video,Photo) ይላኩ።</code>",
+        bot.send_message(user_id, "<code>ያሎትን ሃሳብ ወይም አስታየት ይላኩ።</code>",
                          reply_markup=cancel(lang), parse_mode="html")
         bot.set_state(user_id, AskQuestion.question)
 
@@ -591,8 +588,9 @@ def channel_text():
         channels = cur.fetchone()[0]
     except:
         channels = '{}'
+   
     channels = json.loads(channels)
-    chan = [bot.get_chat(c) for c in channels]
+    chan = [bot.get_chat(c) for c in channels if c]
     ch = [c.username for c in chan]
     chan = '\n'.join(ch)
     key = [key for key, val in channels.items()]
@@ -609,7 +607,8 @@ def admin_text():
     except:
         admins = '{}'
     admins = json.loads(admins)
-    ad = [bot.get_chat(c).first_name for c in admins]
+    ad = [bot.get_chat(c) for c in admins]
+    ad = [chaneel.first_name for channel in ad]
     ad = '\n'.join(ad)
     key = [bot.get_chat(key) for key in admins]
 
@@ -2129,6 +2128,7 @@ def browse(msg, ids):
             data.extend(ui)
             if not data[6]:
                 data[6] = ""
+        print(data)
         q, tq, c, sub, first, gend, acc = data
         data.clear()
         btn = types.InlineKeyboardMarkup()
@@ -2226,6 +2226,9 @@ def main():
     t1 = threading.Thread(target=forever)
     t1.start()
     bot.infinity_polling()
-    
-if __name__ == "__main__":
-    main()
+  
+if __name__ == "__main__": 
+    while 1: 
+        try:print("Poling started");main()
+        except Exception as e:print(e)
+    print("Stopped")
