@@ -87,7 +87,7 @@ def main_buttons(l, user_id, **kwargs):
     statics = types.KeyboardButton("📊 Statics")
     que = types.KeyboardButton("🧩 Questions")
     books = types.KeyboardButton("📚 Books" if l == 'en' else "📚መጽሐፍት")
-    ask = types.KeyboardButton("🗣 Ask Question" if l == 'en' else "🗣 ጥያቄ ጥይቅ" )
+    ask = types.KeyboardButton("🗣 Ask Question" if l == 'en' else "🗣 ጥያቄ ጠይቅ" )
     ques = types.KeyboardButton("🙋‍♂My Questions" if l == 'en'  else "🙋‍♂ የኔ ጥያቄዎች")
     invite = types.KeyboardButton("👨‍👩‍👦‍👦 Invite" if l == 'en' else "👨‍👩‍👦‍👦 ጋብዝ")
     setting = types.KeyboardButton("⚙️ Settings" if l == 'en'  else "⚙️ ቅንብሮች")
@@ -245,7 +245,7 @@ def subject_btn(lang):
     return all_btn
 
 def amounts(lang):
-    all_btn = types.InlineKeyboardMarkup(row_width=5)
+    all_btn = types.InlineKeyboardMarkup(row_width=2)
     _5=types.InlineKeyboardButton(text="5 Birr",callback_data='5-birr')
     _10=types.InlineKeyboardButton(text="10 Birr",callback_data='10-birr')
     _15=types.InlineKeyboardButton(text="15 Birr",callback_data='15-birr')
@@ -255,9 +255,9 @@ def amounts(lang):
     _75=types.InlineKeyboardButton(text="75 Birr",callback_data='75-birr')
     _100=types.InlineKeyboardButton(text="100 Birr",callback_data='100-birr')
     back=types.InlineKeyboardButton(text="🔙 Back" if lang == 'en' else "🔙 ተመለስ",callback_data='backwithdr')
-    all_btn.add(_5,_10,_15)
-    all_btn.add(_20,_25,_50)
-    all_btn.add(_75,_100)
+    all_btn.add(_15, _20, _25, _50, _75, _100)
+    #all_btn.add(_20,_25,_50)
+    #all_btn.add(_75,_100)
     all_btn.add(back)
     return all_btn
 
@@ -327,6 +327,6 @@ def channel_btn(channel_id, **kwargs):
 subj=["🇬🇧 English", "🇪🇹 አማርኛ", "🧪 Chemistry", "🧮 Math", "🔭 Physics", "⚽️ HPE", "🔬 Biology", "💻 ICT", "🌏 History",
       "🧭 Geography", "🎪 Civics"]
 
-am_btns = ["📚መጽሐፍት", "🙋‍♂ የኔ ጥያቄዎች", "👨‍👩‍👦‍👦 ጋብዝ","⚙️ ቅንብሮች", "🗣 ጥያቄ ጥይቅ", "💬 አስታየት"]
+am_btns = ["📚መጽሐፍት", "🙋‍♂ የኔ ጥያቄዎች", "👨‍👩‍👦‍👦 ጋብዝ","⚙️ ቅንብሮች", "🗣 ጥያቄ ጠይቅ", "💬 አስታየት"]
 
 en_btns =["🙋‍♂My Questions", "📚 Books", "💬 Feedback", "👨‍👩‍👦‍👦 Invite", "⚙️ Settings", "🗣 Ask Question"]
